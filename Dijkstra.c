@@ -137,7 +137,7 @@ void create_queue(void)
 		if(r<N && Q[r].ver->d < Q[k].ver->d)
 			k=r;
 		if(k!=j)
-			swap_Q(i,j);
+			swap_Q(k,j);
 	}
 }
 int extractmin(void)
@@ -162,7 +162,7 @@ int extractmin(void)
 		else
 			break;
 	}
-	return Q[Q_size+1].n;
+	return Q[Q_size].n;
 }
 void Dijkstra(int s)
 {
