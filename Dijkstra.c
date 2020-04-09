@@ -17,16 +17,17 @@ typedef struct
 
 queue *Q;
 node *V;
-int N,**I,Q_size;
+int  N,**I,Q_size;
 double **W;
 
-void initialize(int);
-void relax(int,int);
-void swap_Q(int,int);
-void create_queue(void);
-int extractmin(void);
-void Dijkstra(int s);
-char* path(int);
+void  initialize(int);
+void  relax(int,int);
+void minheap();
+void  swap_Q(int,int);
+void  create_queue(void);
+ int  extractmin(void);
+void  Dijkstra(int s);
+char *path(int);
 char *strrev(char*);
 
 int main()
@@ -118,6 +119,21 @@ void swap_Q(int i,int j)
 	Q[i].ver = Q[j].ver;
 	Q[j].ver = p;	
 }
+void minheap()
+{
+	int n = Q_size,k,i,j;
+	for(i=1;i<n;i++)
+	{	
+		k=i;
+		do
+		{	
+			j=(k-1)/2;
+			if(Q[k].ver->d < Q[j].ver->d)
+				swap_Q(k,j);
+			k=j;
+		}while(j!=0);
+	}
+}
 void create_queue(void)
 {
 	int i,j,k,l,r;
@@ -127,41 +143,14 @@ void create_queue(void)
 		Q[i].n = i;
 		Q[i].ver = &V[i];
 	}
-	for(j=N/2;j>=0;j--)
-	{
-		k=j;
-		l=2*j;
-		r=l+1;
-		if(l<N && Q[l].ver->d < Q[k].ver->d)
-			k=l;
-		if(r<N && Q[r].ver->d < Q[k].ver->d)
-			k=r;
-		if(k!=j)
-			swap_Q(k,j);
-	}
+	minheap();
 }
 int extractmin(void)
 {
 	int i,k,l,r;
 	swap_Q(0,Q_size-1);
 	Q_size--;
-	for(i=0;i<Q_size;)
-	{
-		k=i;
-		l=2*i;
-		r=l+1;
-		if(l<Q_size && Q[l].ver->d < Q[k].ver->d)
-			k=l;
-		if(r<Q_size && Q[r].ver->d < Q[k].ver->d)
-			k=r;
-		if(k!=i)
-		{
-			swap_Q(i,k);
-			i=k;
-		}
-		else
-			break;
-	}
+	minheap();
 	return Q[Q_size].n;
 }
 void Dijkstra(int s)
