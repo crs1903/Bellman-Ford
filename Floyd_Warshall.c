@@ -90,7 +90,7 @@ void print_dmat(double **arr,int n){
 			if(arr[i][j]==inf)
 				printf("--\t");
 			else
-				printf("%2d\t",(int)arr[i][j]);
+				printf("%.2lf\t",arr[i][j]);
 		printf("\n");
 	}
 	printf("\n");
